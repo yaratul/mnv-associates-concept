@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Calendar, Clock, ArrowRight, X } from "lucide-react";
+import { Calendar, Clock, ArrowRight, X, Sparkles } from "lucide-react";
 
 interface Article {
   id: string;
@@ -10,6 +10,7 @@ interface Article {
   date: string;
   readTime: string;
   summary: string;
+  artType: "waves" | "orbits" | "grid";
   fullContent: string[];
 }
 
@@ -23,6 +24,7 @@ export default function InsightsSection() {
       category: "Advisory & Setup",
       date: "02 Jan 2026",
       readTime: "4 min read",
+      artType: "waves",
       summary:
         "Setting up a business in Dubai goes far beyond obtaining a trade license. Without sound accounting architecture and FTA tax registration from inception, founders risk costly compliance rework.",
       fullContent: [
@@ -37,6 +39,7 @@ export default function InsightsSection() {
       category: "CFO Advisory",
       date: "31 Dec 2025",
       readTime: "5 min read",
+      artType: "orbits",
       summary:
         "High-growth companies in the GCC are increasingly turning to fractional CFOs to secure venture funding, navigate complex debt facilities, and optimize cash burn without full-time executive payroll.",
       fullContent: [
@@ -51,6 +54,7 @@ export default function InsightsSection() {
       category: "Tax & Compliance",
       date: "25 Dec 2025",
       readTime: "6 min read",
+      artType: "grid",
       summary:
         "From Ultimate Beneficial Owner (UBO) filings to Economic Substance (ESR) notifications and EmaraTax onboarding, here is the essential compliance schedule post-license issuance.",
       fullContent: [
@@ -62,69 +66,160 @@ export default function InsightsSection() {
     },
   ];
 
+  const renderArtVisual = (type: Article["artType"]) => {
+    switch (type) {
+      case "waves":
+        return (
+          <div className="relative w-full h-36 rounded-2xl bg-gradient-to-br from-[#533278] to-[#1E112E] overflow-hidden flex items-center justify-center group-hover:scale-[1.02] transition-transform duration-500">
+            <svg
+              className="absolute inset-0 w-full h-full stroke-white/20 fill-none"
+              viewBox="0 0 300 120"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M 0 60 Q 75 20, 150 60 T 300 60"
+                strokeWidth="2"
+                stroke="url(#artGoldGrad)"
+                className="group-hover:translate-x-2 transition-transform duration-700"
+              />
+              <path
+                d="M 0 80 Q 75 40, 150 80 T 300 80"
+                strokeWidth="1.5"
+                opacity="0.6"
+              />
+              <path
+                d="M 0 40 Q 75 60, 150 40 T 300 40"
+                strokeWidth="1"
+                opacity="0.4"
+              />
+              <defs>
+                <linearGradient id="artGoldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#C5A059" />
+                  <stop offset="100%" stopColor="#DFBF7D" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <div className="relative z-10 text-[10px] font-extrabold uppercase tracking-widest text-[#E4C88A] bg-black/40 px-3 py-1 rounded-full backdrop-blur-md border border-[#C5A059]/30">
+              UAE Startup Financial Architecture
+            </div>
+          </div>
+        );
+
+      case "orbits":
+        return (
+          <div className="relative w-full h-36 rounded-2xl bg-gradient-to-br from-[#1B2B44] to-[#0D1524] overflow-hidden flex items-center justify-center group-hover:scale-[1.02] transition-transform duration-500">
+            <svg
+              className="absolute inset-0 w-full h-full stroke-white/25 fill-none"
+              viewBox="0 0 300 120"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <ellipse cx="150" cy="60" rx="90" ry="35" stroke="#C5A059" strokeWidth="1.5" className="group-hover:rotate-6 origin-center transition-transform duration-700" />
+              <ellipse cx="150" cy="60" rx="60" ry="20" opacity="0.4" />
+              <circle cx="150" cy="60" r="16" fill="#C5A059" opacity="0.25" />
+              <circle cx="210" cy="50" r="4" fill="#C5A059" />
+            </svg>
+            <div className="relative z-10 text-[10px] font-extrabold uppercase tracking-widest text-white bg-black/40 px-3 py-1 rounded-full backdrop-blur-md border border-white/20">
+              Fractional Capital Governance
+            </div>
+          </div>
+        );
+
+      case "grid":
+        return (
+          <div className="relative w-full h-36 rounded-2xl bg-gradient-to-br from-[#3D1E3A] to-[#1F0E1E] overflow-hidden flex items-center justify-center group-hover:scale-[1.02] transition-transform duration-500">
+            <svg
+              className="absolute inset-0 w-full h-full stroke-[#C5A059]/30 fill-none"
+              viewBox="0 0 300 120"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <line x1="20" y1="0" x2="20" y2="120" strokeDasharray="3 3" />
+              <line x1="80" y1="0" x2="80" y2="120" strokeDasharray="3 3" />
+              <line x1="150" y1="0" x2="150" y2="120" stroke="#C5A059" strokeWidth="1.5" />
+              <line x1="220" y1="0" x2="220" y2="120" strokeDasharray="3 3" />
+              <line x1="280" y1="0" x2="280" y2="120" strokeDasharray="3 3" />
+              <path d="M 20 90 L 80 60 L 150 40 L 220 20 L 280 10" stroke="#E4C88A" strokeWidth="2" />
+            </svg>
+            <div className="relative z-10 text-[10px] font-extrabold uppercase tracking-widest text-[#E4C88A] bg-black/40 px-3 py-1 rounded-full backdrop-blur-md border border-[#C5A059]/30">
+              90-Day Regulatory Matrix
+            </div>
+          </div>
+        );
+    }
+  };
+
   return (
-    <section id="insights" className="py-20 bg-[#FBF9FD] border-b border-[#EBE5F1]">
+    <section id="insights" className="py-24 bg-[#FAF8FC] border-b border-[#EBE5F1] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-          <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ECE7F2] text-[#533278] text-xs font-bold uppercase tracking-wider">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+          <div className="space-y-3.5 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-[#A191B2]/30 shadow-sm text-[#533278] text-xs font-extrabold uppercase tracking-wider backdrop-blur-md">
+              <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
               Thought Leadership & Regional Updates
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0F0C1B] tracking-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0F0C1B] tracking-tight font-display">
               Navigating UAE Fiscal & Regulatory Shifts
             </h2>
-            <p className="text-sm sm:text-base text-[#635F74]">
+            <p className="text-sm sm:text-base text-[#5C586E]">
               Actionable analysis on Corporate Tax decrees, VAT interpretations, and business structuring from MNV Associates’ senior advisory team in Dubai.
             </p>
           </div>
 
           <a
             href="#contact"
-            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#533278] hover:text-[#432662] pb-1 border-b-2 border-[#533278] transition-colors self-start md:self-auto"
+            className="group inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-[#533278] hover:text-[#2F1A46] pb-1 border-b-2 border-[#533278] hover:border-[#C5A059] transition-all self-start md:self-auto"
           >
             <span>Subscribe to Regulatory Alerts</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform text-[#C5A059]" />
           </a>
         </div>
 
+        {/* 3 Articles Grid with Art-Directed SVG Visuals */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {articles.map((article) => (
             <article
               key={article.id}
-              className="rounded-3xl bg-white p-7 border border-[#EBE5F1] hover:border-[#A191B2] card-hover-effect flex flex-col justify-between group"
+              className="rounded-3xl bg-white p-6 sm:p-7 border border-[#EBE5F1] hover:border-[#C5A059]/60 shadow-sm hover:shadow-[0_20px_45px_-12px_rgba(83,50,120,0.16)] hover:-translate-y-1.5 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] flex flex-col justify-between group"
             >
               <div className="space-y-4">
-                <div className="flex items-center justify-between text-[11px] text-[#635F74]">
-                  <span className="font-bold text-[#533278] bg-[#ECE7F2] px-2.5 py-0.5 rounded-full">
+                {/* Art-Directed Header Visual */}
+                {renderArtVisual(article.artType)}
+
+                {/* Metadata Pills */}
+                <div className="flex items-center justify-between text-[11px] text-[#5C586E] pt-2">
+                  <span className="font-extrabold text-[#533278] bg-[#533278]/10 px-3 py-1 rounded-full border border-[#533278]/15">
                     {article.category}
                   </span>
-                  <div className="flex items-center gap-1.5">
-                    <Clock className="w-3 h-3 text-[#A191B2]" />
+                  <div className="flex items-center gap-1.5 font-medium">
+                    <Clock className="w-3 h-3 text-[#C5A059]" />
                     <span>{article.readTime}</span>
                   </div>
                 </div>
 
-                <h3 className="text-lg font-bold text-[#0F0C1B] group-hover:text-[#533278] transition-colors line-clamp-2 leading-snug">
+                {/* Title */}
+                <h3 className="text-lg font-bold text-[#0F0C1B] group-hover:text-[#533278] transition-colors line-clamp-2 leading-snug font-display">
                   {article.title}
                 </h3>
 
-                <p className="text-xs text-[#635F74] leading-relaxed line-clamp-3">
+                {/* Summary */}
+                <p className="text-xs text-[#5C586E] leading-relaxed line-clamp-3">
                   {article.summary}
                 </p>
               </div>
 
+              {/* Card Footer */}
               <div className="pt-6 mt-6 border-t border-[#F5F2F8] flex items-center justify-between">
-                <div className="flex items-center gap-1.5 text-[11px] text-[#A191B2]">
-                  <Calendar className="w-3 h-3" />
+                <div className="flex items-center gap-1.5 text-[11px] text-[#8A859E]">
+                  <Calendar className="w-3 h-3 text-[#C5A059]" />
                   <span>{article.date}</span>
                 </div>
 
                 <button
                   onClick={() => setActiveArticle(article)}
-                  className="text-xs font-bold text-[#533278] group-hover:translate-x-1 transition-transform flex items-center gap-1"
+                  className="text-xs font-extrabold text-[#533278] group-hover:text-[#2F1A46] group-hover:translate-x-1 transition-all flex items-center gap-1.5"
                 >
                   <span>Read Article</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <ArrowRight className="w-3.5 h-3.5 text-[#C5A059]" />
                 </button>
               </div>
             </article>
@@ -132,20 +227,21 @@ export default function InsightsSection() {
         </div>
       </div>
 
+      {/* Read Article Modal */}
       {activeArticle && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-in fade-in duration-200">
           <div className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-[#EBE5F1] relative space-y-6 max-h-[85vh] overflow-y-auto">
             <button
               onClick={() => setActiveArticle(null)}
-              className="absolute top-5 right-5 p-2 rounded-full text-[#635F74] hover:text-[#0F0C1B] hover:bg-[#F5F2F8] transition-colors"
+              className="absolute top-5 right-5 p-2.5 rounded-full text-[#5C586E] hover:text-[#0F0C1B] hover:bg-[#F5F2F8] transition-colors"
               aria-label="Close article"
             >
               <X className="w-5 h-5" />
             </button>
 
             <div className="space-y-3 pr-8">
-              <div className="flex items-center gap-3 text-xs text-[#635F74]">
-                <span className="font-bold text-[#533278] bg-[#ECE7F2] px-2.5 py-0.5 rounded-full">
+              <div className="flex items-center gap-3 text-xs text-[#5C586E]">
+                <span className="font-extrabold text-[#533278] bg-[#533278]/10 px-3 py-1 rounded-full">
                   {activeArticle.category}
                 </span>
                 <span>•</span>
@@ -153,25 +249,25 @@ export default function InsightsSection() {
                 <span>•</span>
                 <span>{activeArticle.readTime}</span>
               </div>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#0F0C1B] leading-tight">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#0F0C1B] leading-tight font-display">
                 {activeArticle.title}
               </h3>
             </div>
 
-            <div className="space-y-4 text-sm text-[#0F0C1B] leading-relaxed border-t border-[#F5F2F8] pt-4">
+            <div className="space-y-4 text-sm text-[#0F0C1B] leading-relaxed border-t border-[#F5F2F8] pt-4 font-normal">
               {activeArticle.fullContent.map((paragraph, idx) => (
                 <p key={idx}>{paragraph}</p>
               ))}
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#FBF9FD] border border-[#EBE5F1] flex items-center justify-between">
+            <div className="p-4 rounded-2xl bg-[#FAF8FC] border border-[#EBE5F1] flex items-center justify-between">
               <div>
                 <div className="text-xs font-bold text-[#0F0C1B]">MNV Associates Advisory Practice</div>
-                <div className="text-[11px] text-[#635F74]">Office 706, Sobha Ivory II, Business Bay, Dubai</div>
+                <div className="text-[11px] text-[#5C586E]">Office 706, Sobha Ivory II, Business Bay, Dubai</div>
               </div>
               <button
                 onClick={() => setActiveArticle(null)}
-                className="text-xs font-bold text-white bg-[#533278] hover:bg-[#432662] px-4 py-2 rounded-xl"
+                className="text-xs font-extrabold uppercase tracking-wider text-white bg-gradient-to-r from-[#533278] to-[#2F1A46] px-5 py-2.5 rounded-full shadow-md"
               >
                 Close
               </button>
