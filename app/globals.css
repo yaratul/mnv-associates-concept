@@ -1,93 +1,283 @@
 @import "tailwindcss";
 
-@theme {
-  --color-primary: #533278;
-  --color-primary-hover: #432662;
-  --color-primary-dark: #2F1A46;
-  --color-primary-light: #7045A0;
-  --color-secondary: #A191B2;
-  --color-secondary-light: #ECE7F2;
-  --color-secondary-subtle: #F5F2F8;
-  --color-accent-gold: #C5A059;
-  --color-dark: #0F0C1B;
-  --color-dark-card: #181427;
-  --color-dark-border: #2B233F;
-  --color-muted-text: #635F74;
-  --color-surface: #FFFFFF;
-  --color-surface-subtle: #FBF9FD;
-  --color-surface-border: #EBE5F1;
+/* -------------------------------------------------------------
+   MNV Associates — Luxury Financial Architecture Design System
+   Core Palette: Deep Violet #533278 | Lavender #A191B2 | Gold #C5A059
+   ------------------------------------------------------------- */
+
+@property --conic-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@property --shimmer-x {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: -100%;
 }
 
 :root {
-  --primary: #533278;
-  --primary-dark: #2F1A46;
-  --secondary: #A191B2;
-  --secondary-light: #ECE7F2;
-  --background: #FFFFFF;
-  --foreground: #0F0C1B;
-}
+  --font-display: var(--font-serif), Cormorant Garamond, "Playfair Display", Georgia, serif;
+  --font-body: var(--font-sans), "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
 
-html {
-  scroll-behavior: smooth;
+  /* Brand Luxury Palette */
+  --primary-violet: #533278;
+  --primary-violet-hover: #432662;
+  --primary-violet-deep: #2F1A46;
+  --primary-violet-darkest: #160D22;
+  --primary-violet-glass: rgba(83, 50, 120, 0.08);
+
+  --secondary-lavender: #A191B2;
+  --secondary-lavender-subtle: #ECE7F2;
+  --secondary-lavender-ghost: #FAF8FC;
+
+  --accent-gold: #C5A059;
+  --accent-gold-light: #E4C88A;
+  --accent-gold-dark: #9E7B35;
+  --accent-gold-glow: rgba(197, 160, 89, 0.28);
+
+  /* Deep Canvas Backgrounds */
+  --canvas-dark: #0A0712;
+  --canvas-surface: #140E22;
+  --canvas-surface-elevated: #1E1631;
+  --canvas-border: rgba(161, 145, 178, 0.18);
+  --canvas-border-gold: rgba(197, 160, 89, 0.35);
+
+  /* Physics-based Custom Easings */
+  --ease-entrance: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-transition: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Global Cursor Coordinates (updated by pointermove) */
+  --mx: 50vw;
+  --my: 50vh;
 }
 
 body {
-  background-color: #FFFFFF;
+  font-family: var(--font-body);
   color: #0F0C1B;
-  font-family: var(--font-jakarta), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #FAF8FC;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #F5F2F8;
-}
-::-webkit-scrollbar-thumb {
-  background: #A191B2;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #533278;
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
 }
 
-.glass-header {
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(161, 145, 178, 0.2);
+/* -------------------------------------------------------------
+   Dynamic Global Scroll Progress Bar
+   ------------------------------------------------------------- */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2.5px;
+  background: linear-gradient(90deg, #533278, #A191B2, #C5A059, #E4C88A);
+  z-index: 100;
+  width: 0%;
+  transition: width 0.05s linear;
 }
 
-.glass-header-scrolled {
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 4px 20px -2px rgba(83, 50, 120, 0.08);
+/* -------------------------------------------------------------
+   Atmospheric Blueprint Noise Grain
+   ------------------------------------------------------------- */
+.blueprint-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
 }
 
-.brand-gradient {
-  background: linear-gradient(135deg, #533278 0%, #2F1A46 100%);
+/* -------------------------------------------------------------
+   Architectural Blueprint Grid
+   ------------------------------------------------------------- */
+.blueprint-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(83, 50, 120, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(83, 50, 120, 0.06) 1px, transparent 1px);
+  mask-image: radial-gradient(ellipse 65% 55% at 50% 50%, #000 70%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 65% 55% at 50% 50%, #000 70%, transparent 100%);
 }
 
-.brand-gradient-subtle {
-  background: linear-gradient(180deg, #FBF9FD 0%, #FFFFFF 100%);
+.blueprint-grid-dark {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(161, 145, 178, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(161, 145, 178, 0.08) 1px, transparent 1px);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 65%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 65%, transparent 100%);
 }
 
-.brand-gradient-radial {
-  background: radial-gradient(circle at 50% 0%, rgba(161, 145, 178, 0.15) 0%, transparent 70%);
+/* -------------------------------------------------------------
+   Conic Border Light Beams
+   ------------------------------------------------------------- */
+@keyframes spin-conic {
+  from {
+    --conic-angle: 0deg;
+  }
+  to {
+    --conic-angle: 360deg;
+  }
 }
 
-.card-hover-effect {
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+.conic-border-glow {
+  position: relative;
+  background: conic-gradient(
+    from var(--conic-angle),
+    #533278 0deg,
+    #A191B2 70deg,
+    #C5A059 140deg,
+    rgba(197, 160, 89, 0.2) 200deg,
+    #533278 360deg
+  );
+  animation: spin-conic 8s linear infinite;
 }
 
-.card-hover-effect:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px -15px rgba(83, 50, 120, 0.12);
-  border-color: #A191B2;
+.conic-border-glow-dark {
+  position: relative;
+  background: conic-gradient(
+    from var(--conic-angle),
+    #A191B2 0deg,
+    #C5A059 90deg,
+    rgba(83, 50, 120, 0.4) 180deg,
+    #E4C88A 270deg,
+    #A191B2 360deg
+  );
+  animation: spin-conic 10s linear infinite;
 }
 
+/* -------------------------------------------------------------
+   Interactive Spotlight Glow Card
+   ------------------------------------------------------------- */
+.spotlight-card {
+  position: relative;
+}
+.spotlight-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: radial-gradient(
+    300px circle at var(--card-x, 50%) var(--card-y, 50%),
+    rgba(197, 160, 89, 0.6),
+    transparent 80%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease-transition);
+}
+.spotlight-card:hover::before {
+  opacity: 1;
+}
+
+/* -------------------------------------------------------------
+   Metallic Shimmer Sweep
+   ------------------------------------------------------------- */
+@keyframes shimmer-sweep {
+  0% {
+    --shimmer-x: -150%;
+  }
+  100% {
+    --shimmer-x: 250%;
+  }
+}
+
+.shimmer-sweep {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-sweep::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.22) 50%,
+    transparent 100%
+  );
+  transform: translateX(var(--shimmer-x));
+  pointer-events: none;
+  animation: shimmer-sweep 3.5s infinite var(--ease-transition);
+}
+
+/* -------------------------------------------------------------
+   Floating Ambient Mesh Blobs
+   ------------------------------------------------------------- */
+@keyframes blob-drift-1 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(40px, -30px) scale(1.08);
+  }
+}
+
+@keyframes blob-drift-2 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-35px, 25px) scale(0.95);
+  }
+}
+
+.animate-blob-1 {
+  animation: blob-drift-1 16s ease-in-out infinite;
+}
+.animate-blob-2 {
+  animation: blob-drift-2 20s ease-in-out infinite;
+}
+
+/* -------------------------------------------------------------
+   Infinite Marquee
+   ------------------------------------------------------------- */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* -------------------------------------------------------------
+   Radial Gauge Meter Animation
+   ------------------------------------------------------------- */
+@keyframes dash-grow {
+  from {
+    stroke-dashoffset: 283;
+  }
+  to {
+    stroke-dashoffset: var(--target-offset);
+  }
+}
+.animate-gauge {
+  stroke-dasharray: 283;
+  animation: dash-grow 1.8s var(--ease-entrance) forwards;
+}
+
+/* -------------------------------------------------------------
+   Tagline Lowercase Preservation Rule
+   ------------------------------------------------------------- */
 .tagline-badge {
-  text-transform: lowercase;
-  letter-spacing: 0.02em;
+  text-transform: lowercase !important;
+  letter-spacing: -0.01em;
 }
