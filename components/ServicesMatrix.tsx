@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   Building,
   Receipt,
@@ -14,6 +14,7 @@ import {
   ArrowRight,
   CheckCircle,
   X,
+  Sparkles,
 } from "lucide-react";
 
 interface ServicesMatrixProps {
@@ -190,29 +191,61 @@ export default function ServicesMatrix({ onSelectService }: ServicesMatrixProps)
       ? servicesData
       : servicesData.filter((s) => s.category === selectedCategory);
 
+  const getCategoryStyles = (category: ServiceDetail["category"]) => {
+    switch (category) {
+      case "Taxation & Compliance":
+        return {
+          badgeBg: "bg-[#533278]/10 text-[#533278] border-[#533278]/20",
+          iconBg: "bg-[#533278]/10 text-[#533278] group-hover:bg-[#533278] group-hover:text-white",
+          accentLine: "from-[#533278] via-[#7045A0] to-[#C5A059]",
+          cardBorder: "hover:border-[#533278]/40",
+        };
+      case "Financial Governance":
+        return {
+          badgeBg: "bg-[#245788]/10 text-[#245788] border-[#245788]/20",
+          iconBg: "bg-[#245788]/10 text-[#245788] group-hover:bg-[#245788] group-hover:text-white",
+          accentLine: "from-[#245788] via-[#4379AC] to-[#C5A059]",
+          cardBorder: "hover:border-[#245788]/40",
+        };
+      case "Corporate & People":
+        return {
+          badgeBg: "bg-[#78355E]/10 text-[#78355E] border-[#78355E]/20",
+          iconBg: "bg-[#78355E]/10 text-[#78355E] group-hover:bg-[#78355E] group-hover:text-white",
+          accentLine: "from-[#78355E] via-[#9E4A7E] to-[#C5A059]",
+          cardBorder: "hover:border-[#78355E]/40",
+        };
+    }
+  };
+
   return (
-    <section id="services-matrix" className="py-20 bg-[#FBF9FD] border-b border-[#EBE5F1] relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ECE7F2] text-[#533278] text-xs font-bold uppercase tracking-wider">
+    <section id="services-matrix" className="py-24 bg-[#FAF8FC] border-b border-[#EBE5F1] relative">
+      {/* Blueprint Grid Accent */}
+      <div className="absolute inset-0 blueprint-grid opacity-30 pointer-events-none" aria-hidden="true" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Section Heading with Editorial Serif Display */}
+        <div className="text-center max-w-3xl mx-auto mb-14 space-y-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-[#A191B2]/30 shadow-sm text-[#533278] text-xs font-extrabold uppercase tracking-wider backdrop-blur-md">
+            <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
             Comprehensive Practice Areas
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0F0C1B] tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0F0C1B] tracking-tight font-display">
             Integrated Solutions Built for UAE Growth
           </h2>
-          <p className="text-base text-[#635F74] leading-relaxed">
+          <p className="text-base text-[#5C586E] leading-relaxed">
             From company formation to complex Corporate Tax filings and fractional CFO governance, we offer the complete spectrum of financial and business advisory.
           </p>
 
+          {/* Filter Tabs with Sliding Style */}
           <div className="pt-4 flex flex-wrap items-center justify-center gap-2">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                className={`relative px-5 py-2.5 rounded-full text-xs font-extrabold tracking-wider uppercase transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                   selectedCategory === cat
-                    ? "bg-[#533278] text-white shadow-md shadow-[#533278]/25"
-                    : "bg-white text-[#635F74] hover:text-[#0F0C1B] hover:bg-[#ECE7F2] border border-[#EBE5F1]"
+                    ? "bg-[#533278] text-white shadow-lg shadow-[#533278]/25 scale-105"
+                    : "bg-white text-[#5C586E] hover:text-[#0F0C1B] hover:bg-[#ECE7F2] border border-[#EBE5F1]"
                 }`}
               >
                 {cat === "All" ? "All 9 Services" : cat}
@@ -221,36 +254,59 @@ export default function ServicesMatrix({ onSelectService }: ServicesMatrixProps)
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredServices.map((service) => {
+        {/* Asymmetric Bento Layout Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+          {filteredServices.map((service, index) => {
             const Icon = service.icon;
+            const style = getCategoryStyles(service.category);
+            const isFeatured = service.id === "corporate-tax" || service.id === "business-setup";
+
             return (
               <div
                 key={service.id}
-                className="group rounded-3xl bg-white p-7 border border-[#EBE5F1] hover:border-[#A191B2] card-hover-effect flex flex-col justify-between"
+                className={`group relative rounded-3xl bg-white p-7 sm:p-8 border border-[#EBE5F1] ${style.cardBorder} shadow-sm hover:shadow-[0_20px_45px_-12px_rgba(83,50,120,0.14)] hover:-translate-y-1.5 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] flex flex-col justify-between overflow-hidden ${
+                  isFeatured && selectedCategory === "All" ? "lg:col-span-1 ring-1 ring-[#533278]/10" : ""
+                }`}
               >
-                <div className="space-y-4">
+                {/* Thin Animated Gradient Line along the bottom edge */}
+                <div
+                  className={`absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r ${style.accentLine} scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] origin-left`}
+                  aria-hidden="true"
+                />
+
+                <div className="space-y-5">
+                  {/* Card Header with Icon Morph & Glow Ring */}
                   <div className="flex items-center justify-between">
-                    <div className="w-12 h-12 rounded-2xl bg-[#ECE7F2] text-[#533278] flex items-center justify-center group-hover:bg-[#533278] group-hover:text-white transition-colors duration-300">
+                    <div
+                      className={`relative w-13 h-13 rounded-2xl ${style.iconBg} flex items-center justify-center transition-all duration-300 group-hover:rotate-6 group-hover:scale-110 shadow-sm`}
+                    >
                       <Icon className="w-6 h-6" />
+                      <div className="absolute -inset-1 rounded-2xl bg-[#C5A059]/20 blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                     </div>
-                    <span className="text-[11px] font-semibold text-[#A191B2] bg-[#FBF9FD] px-2.5 py-1 rounded-full border border-[#EBE5F1]">
+                    <span
+                      className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border ${style.badgeBg}`}
+                    >
                       {service.category}
                     </span>
                   </div>
 
+                  {/* Title & Short Description */}
                   <div>
-                    <h3 className="text-xl font-bold text-[#0F0C1B] group-hover:text-[#533278] transition-colors">
+                    <h3 className="text-xl font-bold text-[#0F0C1B] group-hover:text-[#533278] transition-colors duration-200 font-display">
                       {service.name}
                     </h3>
-                    <p className="text-xs text-[#635F74] mt-2 leading-relaxed">
+                    <p className="text-xs text-[#5C586E] mt-2 leading-relaxed">
                       {service.shortDesc}
                     </p>
                   </div>
 
-                  <ul className="space-y-2 pt-2 border-t border-[#F5F2F8]">
+                  {/* Deliverable Highlights */}
+                  <ul className="space-y-2 pt-3 border-t border-[#F5F2F8]">
                     {service.deliverables.slice(0, 2).map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-[11px] text-[#0F0C1B]">
+                      <li
+                        key={idx}
+                        className="flex items-start gap-2.5 text-[11px] text-[#0F0C1B] transition-transform duration-200 group-hover:translate-x-0.5"
+                      >
                         <CheckCircle className="w-3.5 h-3.5 text-[#533278] shrink-0 mt-0.5" />
                         <span className="leading-snug">{item}</span>
                       </li>
@@ -258,18 +314,19 @@ export default function ServicesMatrix({ onSelectService }: ServicesMatrixProps)
                   </ul>
                 </div>
 
-                <div className="pt-6 mt-4 border-t border-[#F5F2F8] flex items-center justify-between">
+                {/* Card Action Link with Underline Sweep */}
+                <div className="pt-6 mt-5 border-t border-[#F5F2F8] flex items-center justify-between">
                   <button
                     onClick={() => setActiveModalService(service)}
-                    className="text-xs font-bold text-[#533278] hover:text-[#432662] flex items-center gap-1.5 transition-colors"
+                    className="relative text-xs font-extrabold text-[#533278] hover:text-[#2F1A46] flex items-center gap-1.5 transition-colors group/btn"
                   >
                     <span>View Scope & Deliverables</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform duration-200 text-[#C5A059]" />
                   </button>
 
                   <button
                     onClick={() => onSelectService(service.name)}
-                    className="text-[11px] font-semibold text-[#635F74] hover:text-[#533278] px-2.5 py-1 rounded-lg hover:bg-[#ECE7F2] transition-colors"
+                    className="text-[11px] font-bold text-[#5C586E] hover:text-[#533278] px-3 py-1.5 rounded-full hover:bg-[#ECE7F2] transition-colors"
                   >
                     Quick Inquiry
                   </button>
@@ -280,52 +337,60 @@ export default function ServicesMatrix({ onSelectService }: ServicesMatrixProps)
         </div>
       </div>
 
+      {/* Service Detail Modal */}
       {activeModalService && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-md animate-in fade-in duration-200">
           <div className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-[#EBE5F1] relative space-y-6 max-h-[90vh] overflow-y-auto">
+            {/* Close Button */}
             <button
               onClick={() => setActiveModalService(null)}
-              className="absolute top-5 right-5 p-2 rounded-full text-[#635F74] hover:text-[#0F0C1B] hover:bg-[#F5F2F8] transition-colors"
+              className="absolute top-5 right-5 p-2.5 rounded-full text-[#5C586E] hover:text-[#0F0C1B] hover:bg-[#F5F2F8] transition-colors"
               aria-label="Close dialog"
             >
               <X className="w-5 h-5" />
             </button>
 
+            {/* Modal Header */}
             <div className="space-y-2 pr-8">
-              <span className="text-xs font-bold text-[#A191B2] uppercase tracking-wider">
+              <span className="text-[11px] font-extrabold text-[#533278] uppercase tracking-wider bg-[#533278]/10 px-3 py-1 rounded-full inline-block">
                 {activeModalService.category}
               </span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#0F0C1B]">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#0F0C1B] font-display">
                 {activeModalService.name}
               </h3>
-              <p className="text-sm font-medium text-[#533278]">
+              <p className="text-sm font-semibold text-[#533278]">
                 {activeModalService.headline}
               </p>
             </div>
 
+            {/* Deliverables List */}
             <div className="space-y-3">
-              <h4 className="text-xs font-bold text-[#0F0C1B] uppercase tracking-wider">
+              <h4 className="text-xs font-extrabold text-[#0F0C1B] uppercase tracking-wider">
                 Key Deliverables & Scope
               </h4>
               <div className="space-y-2">
                 {activeModalService.deliverables.map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-2.5 text-xs text-[#0F0C1B] p-2.5 rounded-xl bg-[#FBF9FD]">
+                  <div key={idx} className="flex items-start gap-2.5 text-xs text-[#0F0C1B] p-3 rounded-2xl bg-[#FBF9FD] border border-[#EBE5F1]">
                     <CheckCircle className="w-4 h-4 text-[#533278] shrink-0 mt-0.5" />
-                    <span>{item}</span>
+                    <span className="font-medium">{item}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#ECE7F2]/60 border border-[#A191B2]/30 space-y-1">
-              <span className="text-xs font-bold text-[#533278]">Regional Regulatory Context</span>
-              <p className="text-xs text-[#635F74] leading-relaxed">
+            {/* Regional Relevance Note */}
+            <div className="p-4 rounded-2xl bg-[#ECE7F2]/60 border border-[#A191B2]/40 space-y-1">
+              <span className="text-xs font-bold text-[#533278] flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" /> Regional Regulatory Context
+              </span>
+              <p className="text-xs text-[#5C586E] leading-relaxed">
                 {activeModalService.regionalContext}
               </p>
             </div>
 
+            {/* Modal Actions */}
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-[#F5F2F8]">
-              <span className="text-xs text-[#635F74]">
+              <span className="text-xs text-[#5C586E]">
                 Direct partner consultation from our Business Bay office.
               </span>
               <button
@@ -334,7 +399,7 @@ export default function ServicesMatrix({ onSelectService }: ServicesMatrixProps)
                   setActiveModalService(null);
                   onSelectService(serviceName);
                 }}
-                className="w-full sm:w-auto text-xs font-bold uppercase tracking-wider text-white bg-[#533278] hover:bg-[#432662] px-6 py-3 rounded-xl shadow-md transition-all"
+                className="w-full sm:w-auto text-xs font-extrabold uppercase tracking-wider text-white bg-gradient-to-r from-[#533278] to-[#2F1A46] hover:from-[#7045A0] hover:to-[#533278] px-7 py-3.5 rounded-full shadow-lg transition-all"
               >
                 Inquire for {activeModalService.name}
               </button>
