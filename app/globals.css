@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #533278;
+  --color-primary-hover: #432662;
+  --color-primary-dark: #2F1A46;
+  --color-primary-light: #7045A0;
+  --color-secondary: #A191B2;
+  --color-secondary-light: #ECE7F2;
+  --color-secondary-subtle: #F5F2F8;
+  --color-accent-gold: #C5A059;
+  --color-dark: #0F0C1B;
+  --color-dark-card: #181427;
+  --color-dark-border: #2B233F;
+  --color-muted-text: #635F74;
+  --color-surface: #FFFFFF;
+  --color-surface-subtle: #FBF9FD;
+  --color-surface-border: #EBE5F1;
+}
+
+:root {
+  --primary: #533278;
+  --primary-dark: #2F1A46;
+  --secondary: #A191B2;
+  --secondary-light: #ECE7F2;
+  --background: #FFFFFF;
+  --foreground: #0F0C1B;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #FFFFFF;
+  color: #0F0C1B;
+  font-family: var(--font-jakarta), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F5F2F8;
+}
+::-webkit-scrollbar-thumb {
+  background: #A191B2;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #533278;
+}
+
+.glass-header {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(161, 145, 178, 0.2);
+}
+
+.glass-header-scrolled {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 20px -2px rgba(83, 50, 120, 0.08);
+}
+
+.brand-gradient {
+  background: linear-gradient(135deg, #533278 0%, #2F1A46 100%);
+}
+
+.brand-gradient-subtle {
+  background: linear-gradient(180deg, #FBF9FD 0%, #FFFFFF 100%);
+}
+
+.brand-gradient-radial {
+  background: radial-gradient(circle at 50% 0%, rgba(161, 145, 178, 0.15) 0%, transparent 70%);
+}
+
+.card-hover-effect {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-hover-effect:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -15px rgba(83, 50, 120, 0.12);
+  border-color: #A191B2;
+}
+
+.tagline-badge {
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+}
